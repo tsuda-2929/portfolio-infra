@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>忘れられた廃屋</title>
+<style>
+    body {
+        background-color: #111;
+        color: #eee;
+        font-family: "Yu Gothic", sans-serif;
+        padding: 2rem;
+    }
+    #story {
+        margin-bottom: 2rem;
+        white-space: pre-line;
+    }
+    button {
+        display: block;
+        margin: 0.5rem 0;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: #222;
+        color: #eee;
+        border: 1px solid #555;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    button:hover {
+        background-color: #444;
+    }
+</style>
+</head>
+<body>
+
+<div id="story">あなたは都会の喧騒から離れ、廃墟探検が趣味の大学生。ある日、地図にも載っていない古い屋敷を見つける。夜の風が、木々の枝を揺らす。屋敷の窓は暗く、割れたガラスが月光を反射している。</div>
+
+<div id="choices"></div>
+
+<script>
+const storyText = {
+    start: "あなたは都会の喧騒から離れ、廃墟探検が趣味の大学生。ある日、地図にも載っていない古い屋敷を見つける。\n\n夜の風が、木々の枝を揺らす。屋敷の窓は暗く、割れたガラスが月光を反射している。",
+    frontDoor: "扉は驚くほど軽く開いた。埃とカビの匂いが鼻を突く。暗闇の中、かすかに誰かの声が聞こえる――「…こっち…」",
+    mirror: "廊下の奥、古い鏡の前で止まる。鏡の中の自分の後ろに、誰かが立っている……",
+    locked: "扉を開けた瞬間、背後で鍵がかかる音。振り返ると…誰もいない。出口は完全に閉ざされていた。",
+    backyard: "裏庭に回ると、古い井戸を見つける。井戸の底からかすかな声が…",
+    well: "井戸の底から手が伸び、あなたを引き込もうとする…",
+    message: "森の中で足を滑らせ、倒れた拍子に携帯電話を落とす。見ると画面に「帰れない」とだけ表示されていた。",
+    window: "家に戻る途中、ふと後ろを振り返ると、屋敷の窓に誰かが立っている。影はあなたをじっと見つめている――"
+};
+
+const choices = {
+    start: [
+        { text: "扉を押して中に入る", next: "frontDoor" },
+        { text: "屋敷の周りを回ってみる", next: "backyard" },
+        { text: "帰る", next: "window" }
+    ],
+    frontDoor: [
+        { text: "声のする方へ進む", next: "mirror" },
+        { text: "戻って外に出る", next: "locked" }
+    ],
+    backyard: [
+        { text: "声に耳を傾ける", next: "well" },
+        { text: "怖くなって立ち去る", next: "message" }
+    ]
+};
+
+function showScene(scene) {
+    const storyDiv = document.getElementById("story");
+    const choicesDiv = document.getElementById("choices");
+    storyDiv.textContent = storyText[scene] || scene;
+    choicesDiv.innerHTML = "";
+
+    if (choices[scene]) {
+        choices[scene].forEach(choice => {
+            const button = document.createElement("button");
+            button.textContent = choice.text;
+            button.onclick = () => showScene(choice.next);
+            choicesDiv.appendChild(button);
+        });
+    } else {
+        // 終了シーン
+        const restartButton = document.createElement("button");
+        restartButton.textContent = "最初からやり直す";
+        restartButton.onclick = () => showScene("start");
+        choicesDiv.appendChild(restartButton);
+    }
+}
+
+// ゲーム開始
+showScene("start");
+</script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自己紹介サイト - サンプル</title>
+  <style>
+    /* 基本レイアウト */
+    body {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    header p {
+      margin: 0.5rem 0 0;
+    }
+    main {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      color: #4CAF50;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 0.5rem;
+    }
+    a {
+      color: #4CAF50;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+    /* SNSボタン */
+    .social a {
+      display: inline-block;
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #4CAF50;
+      border-radius: 4px;
+      transition: 0.3s;
+    }
+    .social a:hover {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>山田 太郎 (Taro Yamada)</h1>
+    <p>Web Developer / AWS Enthusiast</p>
+  </header>
+
+  <main>
+    <!-- 自己紹介 -->
+    <section>
+      <h2>About Me</h2>
+      <p>こんにちは、山田太郎です。クラウド構築（AWS）が得意です。
+      HTML/CSS/JavaScript を使ったウェブサイト制作や、S3 + CloudFront + ACM の構築経験があります。</p>
+    </section>
+
+    <!-- スキル -->
+    <section>
+      <h2>Skills</h2>
+      <ul>
+        <li>HTML / CSS / JavaScript</li>
+        <li>AWS (S3, CloudFront, ACM, Route53)</li>
+        <li>Git / GitHub Actions</li>
+        <li>Shellscript / CLI Automation</li>
+      </ul>
+    </section>
+
+    <!-- SNSリンク -->
+    <section>
+      <h2>Contact & Social</h2>
+      <div class="social">
+        <a href="https://github.com/example" target="_blank">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Taro Yamada
+  </footer>
+
+  <script>
+    // 簡単なJavaScriptサンプル: ページ読み込み時にコンソール出力
+    console.log("Welcome to Taro Yamada's sample profile site!");
+  </script>
+
+</body>
+</html>

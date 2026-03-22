@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>自己分析診断</title>
+<style>
+  body { font-family: sans-serif; text-align: center; padding: 20px; background: #f0f0f0; }
+  h1 { margin-bottom: 10px; }
+  .question { margin: 20px 0; }
+  button { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+  canvas { background: #fff; margin-top: 30px; border-radius: 10px; }
+</style>
+</head>
+<body>
+
+<h1>自己分析診断</h1>
+<div id="quiz">
+  <div class="question" id="question">質問を読み込んでいます...</div>
+  <div id="answers"></div>
+</div>
+
+<canvas id="hexChart" width="400" height="400" style="display:none;"></canvas>
+
+<script>
+const questions = [
+  { q: "新しいことに挑戦するのが好きですか？", options: ["はい", "まあまあ", "あまり"] },
+  { q: "計画的に物事を進める方ですか？", options: ["はい", "まあまあ", "あまり"] },
+  { q: "感情を人にあまり見せませんか？", options: ["はい", "まあまあ", "あまり"] },
+  { q: "チームで動くのが得意ですか？", options: ["はい", "まあまあ", "あまり"] },
+  { q: "リスクを恐れず行動できますか？", options: ["はい", "まあまあ", "あまり"] },
+  { q: "細かい作業が得意ですか？", options: ["はい", "まあまあ", "あまり"] },
+];
+
+let current = 0;
+let scores = [0,0,0,0,0,0]; // 六角形の各軸
+
+function showQuestion() {
+  if(current >= questions.length){
+    showResult();
+    return;
+  }
+  const q = questions[current];
+  document.getElementById("question").innerText = q.q;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.innerText = opt;
+    btn.onclick = () => {
+      scores[current] = 2 - i; // はい=2, まあまあ=1, あまり=0
+      current++;
+      showQuestion();
+    };
+    answersDiv.appendChild(btn);
+  });
+}
+
+function showResult() {
+  document.getElementById("quiz").style.display = "none";
+  const canvas = document.getElementById("hexChart");
+  canvas.style.display = "block";
+  const ctx = canvas.getContext("2d");
+  const center = 200;
+  const maxRadius = 150;
+  const angleStep = Math.PI / 3; // 60度
+  ctx.clearRect(0,0,400,400);
+
+  // 六角形グリッド
+  ctx.strokeStyle = "#aaa";
+  for(let r=0.33; r<=1; r+=0.33){
+    ctx.beginPath();
+    for(let i=0;i<6;i++){
+      const x = center + Math.cos(angleStep*i - Math.PI/2)*maxRadius*r;
+      const y = center + Math.sin(angleStep*i - Math.PI/2)*maxRadius*r;
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // データプロット
+  ctx.beginPath();
+  ctx.fillStyle = "rgba(100,150,255,0.5)";
+  ctx.strokeStyle = "#0077ff";
+  scores.forEach((s,i)=>{
+    const r = (s/2) * maxRadius;
+    const x = center + Math.cos(angleStep*i - Math.PI/2)*r;
+    const y = center + Math.sin(angleStep*i - Math.PI/2)*r;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // 軸ラベル
+  const labels = ["挑戦心","計画性","感情","協調性","行動力","細かさ"];
+  ctx.fillStyle = "#000";
+  ctx.font = "14px sans-serif";
+  labels.forEach((l,i)=>{
+    const x = center + Math.cos(angleStep*i - Math.PI/2)*(maxRadius+20);
+    const y = center + Math.sin(angleStep*i - Math.PI/2)*(maxRadius+20)+5;
+    ctx.fillText(l,x-15,y);
+  });
+}
+
+showQuestion();
+</script>
+
+</body>
+</html>

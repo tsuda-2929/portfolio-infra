@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1 id="greeting">こんにちは</h1>
+    <button onclick="changeGreeting()">挨拶を変える</button>
+
+    <script>
+      // -------------------------------
+      // 変数（メモリに一時的に保存）
+      let name = "太郎"; // ローカル変数
+      // -------------------------------
+
+      // -------------------------------
+      // 関数（命令のまとまり）
+      function changeGreeting() {
+        // -------------------------------
+        // 条件分岐（CPUが比較してジャンプ）
+        if (name === "太郎") {
+          // -------------------------------
+          // CPUが命令を実行
+          document.getElementById("greeting").innerText = "こんにちは、太郎さん！";
+        } else {
+          document.getElementById("greeting").innerText = "こんにちは、ゲスト！";
+        }
+        // -------------------------------
+      }
+      // -------------------------------
+    </script>
+  </body>
+</html>
